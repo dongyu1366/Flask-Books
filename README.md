@@ -4,7 +4,7 @@ This project is developed by **Flask** and **PostgreSQL**, it builds a book revi
 Video demo : https://youtu.be/JBpZfvOW8l4   
 Heroku: https://dong-project01-book.herokuapp.com/    
 
-## All Functions
+## All Functionalities
 - **Registration, login and logout**
 - **Search:** Users are able to type in the ISBN number of a book, the title of a book, or the author of a book to search.
 - **Review Submission:** Users can submit a review: consisting of a rating on a scale of 1 to 5, as well as a text component to the review where the user can write their opinion about a book.    
