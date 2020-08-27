@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="center">
+        <h1>Welcome to the Library!</h1>
+        <hr>
+        <h3>This is a book search web application.</h3>
+        <ul>
+            <li>In this web, it contains 5,000 books, you can use ISBN, book title or author to search a book.</li>
+            <li>You can write a review for any books, but you have to log in first.</li>
+        </ul>
+        <img src="{{ url_for('static', filename='books.png') }}" class="img-fluid" alt="">
+    </div>
+</div>
+
+<style>
+    .center {
+        margin: auto;
+        width: 50%;
+
+    }
+</style>
+{% endblock %}

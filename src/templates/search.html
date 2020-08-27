@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}Book{% endblock %}
+
+{% block body %}
+<div class="row">
+    <form method="POST">
+        <div class="form-row align-items-center pt-3 pb-2">
+            <div class="col-auto">
+                <input type="text" name="isbn" class="form-control mb-2" placeholder="ISBN">
+            </div>
+            <div class="col-auto">
+                <input type="text" name="title" class="form-control mb-2" placeholder="Title">
+            </div>
+            <div class="col-auto">
+                <input type="text" name="author" class="form-control mb-2" placeholder="Author">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary mb-2" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ISBN</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Detail</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.isbn }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td><a href="{{ url_for('book_detail', book_id = book.id) }}">click</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    @media (max-width: 767.98px) {
+        body {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        body {
+            font-size: 14px;
+        }
+    }
+</style>
+{% endblock %}

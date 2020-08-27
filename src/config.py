@@ -1,2 +1,2 @@
-DATABASE_URL = 
-API_key = 
+DATABASE_URL = 'sdad'
+API_key = 'ss'
