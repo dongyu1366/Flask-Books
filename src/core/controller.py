@@ -1,7 +1,8 @@
-from application import app, db
-from flask import Flask, flash, session, render_template, request, redirect, url_for, jsonify
+from application import app
+from flask import flash, session, render_template, request, redirect, url_for
 from handler.user_handler import UserHandler, UserDatabase
 from handler.book_handler import BookHandler
+from handler.review_handler import ReviewHandler
 
 
 @app.route("/")
@@ -104,5 +105,33 @@ def book_detail(book_id):
 
     # Get the rating form Goodreads if available
     isbn = book.isbn
-    goodreads = BookHandler.get_goodreads_rating(isbn=isbn)
-    return render_template("detail.html", book=book, reviews=[], goodreads=goodreads)
+    goodreads_rating = BookHandler.get_goodreads_rating(isbn=isbn)
+
+    # Get all reviews from database
+    reviews = ReviewHandler.get_all_review(book_id=book_id)
+
+    # Create a review and store into database, one user can only make one review for the same book
+    if request.method == "POST":
+        if session.get("username"):
+            username = session["username"]
+            rating = int(request.form.get("rating"))
+            content = request.form.get("content")
+
+            # Make sure the user have not leave a review before
+            if ReviewHandler.check_review_already(username=username, book_id=book_id):
+                flash("You have already make a review.", "warning")
+                return redirect(url_for('book_detail', book_id=book.id))
+
+            # Save the review into database
+            try:
+                ReviewHandler.insert_review_to_db(book_id=book_id, username=username, rating=rating, content=content)
+                flash("Success", "success")
+                return redirect(url_for('book_detail', book_id=book.id))
+            except:
+                flash("Oops! Please try again.", "warning")
+                return redirect(url_for('book_detail', book_id=book.id))
+        else:
+            flash("You have to login first.", "warning")
+            return redirect(url_for('user_login'))
+
+    return render_template("detail.html", book=book, reviews=reviews, goodreads=goodreads_rating)

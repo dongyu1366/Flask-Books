@@ -37,9 +37,9 @@ class BookHandler:
 
     @classmethod
     def get_goodreads_rating(cls, isbn):
-        response = requests.get("https://www.goodreads.com/book/review_counts.json",
-                                params={"key": 'Q0kQoBRDnr3b2b501C7jiQ', "isbns": f"{isbn}"})
         try:
+            response = requests.get("https://www.goodreads.com/book/review_counts.json",
+                                    params={"key": 'Q0kQoBRDnr3b2b501C7jiQ', "isbns": f"{isbn}"})
             response = response.json()
             average_rating = response["books"][0]["average_rating"]
             work_ratings_count = response["books"][0]["work_ratings_count"]
