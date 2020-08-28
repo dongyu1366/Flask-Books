@@ -16,4 +16,4 @@ from orm.models import *
 if __name__ == '__main__':
     db.create_all()
     books.insert_csv_to_db()
-    app.run()
+    app.run(port=5000, host='0.0.0.0')
