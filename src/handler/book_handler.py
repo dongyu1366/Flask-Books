@@ -1,7 +1,5 @@
 import requests
-from flask import Flask, flash, session, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import func
-from application import db
 from orm.models import Book
 
 

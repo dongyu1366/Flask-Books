@@ -50,7 +50,10 @@ def user_register():
 @app.route("/login", methods=["GET", "POST"])
 def user_login():
     # check user is already login or not
-    UserHandler.check_login_status()
+    if UserHandler.check_login_status():
+        username = session["username"]
+        flash(f"Welcome, {username}!", "success")
+        return render_template("index.html")
 
     # check the input username & password are valid or not
     if request.method == "POST":
@@ -63,7 +66,6 @@ def user_login():
         else:
             flash("Invalid username or password. Please try again.", 'danger')
             return redirect(url_for('user_login'))
-
     return render_template("login.html")
 
 
@@ -71,7 +73,6 @@ def user_login():
 def user_logout():
     # reset data of session
     session.clear()
-
     return redirect(url_for('user_login'))
 
 
@@ -92,7 +93,6 @@ def books_search():
             else:
                 flash("No matches, please try another key words.", "warning")
                 return render_template("search.html")
-
     return render_template("search.html")
 
 
@@ -110,19 +110,19 @@ def book_detail(book_id):
     # Get all reviews from database
     reviews = ReviewHandler.get_all_review(book_id=book_id)
 
-    # Create a review and store into database, one user can only make one review for the same book
+    # Create a review and insert to database, one user can only make one review for the same book
     if request.method == "POST":
         if session.get("username"):
             username = session["username"]
             rating = int(request.form.get("rating"))
             content = request.form.get("content")
 
-            # Make sure the user have not leave a review before
+            # Make sure the user has not leave a review before
             if ReviewHandler.check_review_already(username=username, book_id=book_id):
                 flash("You have already make a review.", "warning")
                 return redirect(url_for('book_detail', book_id=book.id))
 
-            # Save the review into database
+            # Insert the review into database
             try:
                 ReviewHandler.insert_review_to_db(book_id=book_id, username=username, rating=rating, content=content)
                 flash("Success", "success")
@@ -133,5 +133,4 @@ def book_detail(book_id):
         else:
             flash("You have to login first.", "warning")
             return redirect(url_for('user_login'))
-
     return render_template("detail.html", book=book, reviews=reviews, goodreads=goodreads_rating)
