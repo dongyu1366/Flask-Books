@@ -1,4 +1,4 @@
-from application import app
+from app import app
 from flask import flash, session, render_template, request, redirect, url_for
 from handler.user_handler import UserHandler, UserDatabase
 from handler.book_handler import BookHandler

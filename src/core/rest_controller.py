@@ -1,5 +1,5 @@
 from flask_restful import Api
-from application import app
+from app import app
 from core.resources import BookApi
 
 

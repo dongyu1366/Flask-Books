@@ -1,21 +1,23 @@
 import os
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import books
+from flask import Flask
 
 
 app = Flask(__name__)
-port = int(os.environ.get("PORT", 5000))
-app.secret_key = 'dsfasdfqr32543trehgedfgsd'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///library.sqlite'
+
+app.secret_key = 'qrfasdga749thgejfkdbnnoqwLDK'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@mysql-server:3306/library"
+
 db = SQLAlchemy(app)
+db.init_app(app)
+
+port = int(os.environ.get("PORT", 5000))
 
 from core.controller import *
 from core.rest_controller import *
 from orm.models import *
 
-if __name__ == '__main__':
-    db.create_all()
-    books.insert_csv_to_db()
+
+if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=port)

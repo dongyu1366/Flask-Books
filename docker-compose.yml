@@ -1,0 +1,29 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-server
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 'library'
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  web:
+    build: .
+    container_name: flask-library
+    links:
+      - mysql
+    ports:
+     - "5000:5000"
+    volumes:
+     - ./src:/app
+    depends_on:
+      - mysql
+    command: bash -c "/wait && python books.py && python app.py"
+    environment:
+      - WAIT_HOSTS=mysql:3306
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=15
+      - WAIT_HOST_CONNECT_TIMEOUT=30

@@ -1,6 +1,6 @@
 .env/
 .idea/
-library.sqlite
+db/
 
 *.pyc
 __pycache__/

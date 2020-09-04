@@ -1,7 +1,7 @@
 import csv
 from tqdm import tqdm
-from application import db
-from orm.models import Book
+from app import db
+from orm.models import *
 
 
 def insert_csv_to_db():
@@ -16,7 +16,9 @@ def insert_csv_to_db():
                 db.session.commit()
             except:
                 print(f'{book.isbn}--{book.title} is already in database.')
+        print('Import books data completed!')
 
 
 if __name__ == '__main__':
+    db.create_all()
     insert_csv_to_db()

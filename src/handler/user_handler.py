@@ -1,5 +1,5 @@
 from flask import session
-from application import db
+from app import db
 from orm.models import User
 
 

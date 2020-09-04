@@ -1,6 +1,6 @@
 from flask_restful import Resource, fields, marshal
 from sqlalchemy import func
-from application import db
+from app import db
 from orm.models import Book, Review
 
 BookApi_field = {
